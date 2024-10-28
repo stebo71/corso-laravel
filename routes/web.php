@@ -1,11 +1,24 @@
 <?php
 
+use App\Http\Controllers\ProvaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home');
+    return view('home', [
+        'pageTitle' => 'Homepage',
+        'metaTitle' => 'Meta della Homepage'
+    ]);
 });
 
+Route::get('/about', function () {
+    return view('about', [
+        'pageTitle' => 'About',
+        'metaTitle' => 'Meta della About page'
+    ]);
+});
+
+// Route::get('/prova', []);
+// Route::post('/prova', [ProvaController::class, 'provaData']);
 
 
 // Classico routing con GET, POST, PUT, PATCH, DELETE
