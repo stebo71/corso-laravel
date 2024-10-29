@@ -5,7 +5,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home', [
+    return view('welcome', [
         'pageTitle' => 'Homepage',
         'metaTitle' => 'Meta della Homepage'
     ]);
@@ -19,8 +19,8 @@ Route::get('/about', function () {
 });
 
 
-// Route::get('/prova', []);
-// Route::post('/prova', [ProvaController::class, 'provaData']);
+Route::get('/prova', [ProvaController::class, 'provaFunction']);
+Route::post('/prova', [ProvaController::class, 'provaData']);
 
 Route::get('/posts', function () {
     //Recupera tutti i posts
@@ -59,9 +59,8 @@ Route::get('/posts/delete/{id}', function($id){
 // Classico routing con GET, POST, PUT, PATCH, DELETE
 //
 //
-// Route::get('/prova', function () {
-//     return view('welcome');
-// });
+// Route::get('/prova', [ProvaController::class, 'provaFunction']);
+
 
 // Route::post('/submit-form', function () {
 //     return '<h1>Form inviato</h1>';
