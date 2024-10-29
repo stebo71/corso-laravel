@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProvaController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,9 +18,43 @@ Route::get('/about', function () {
     ]);
 });
 
+
 // Route::get('/prova', []);
 // Route::post('/prova', [ProvaController::class, 'provaData']);
 
+Route::get('/posts', function () {
+    //Recupera tutti i posts
+    $post = Post::all();
+
+    //Mostra tutti i posts
+    return view('posts.index', ['posts'=>$post]);
+})->name('posts.index');
+
+Route::get('/posts/create', function(){
+    //Crea un nuovo post con dati fittizi
+    $post = Post::create([
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    //Mostra un messaggio di conferma con l'ID del post creato
+    return view('posts.create', ['post' => $post]);
+})->name('posts.create');
+
+Route::get('/posts/delete/{id}', function($id){
+    //Recupera e elimina il post con l'ID specificato
+    $post = Post::find($id);
+
+    if ($post){
+        $post->delete();
+        $message = "Il post con ID $id è stato cancellato.";
+    }else{
+        $message = "Il post con ID $id NON è stato trovato.";
+    }
+
+    //Mostra messaggio di conferma dell'eliminazione
+    return view('posts.delete', ['message' => $message]);
+})->name('posts.delete');
 
 // Classico routing con GET, POST, PUT, PATCH, DELETE
 //
