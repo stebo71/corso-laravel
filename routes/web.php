@@ -20,7 +20,7 @@ Route::get('/about', function () {
 
 
 Route::get('/prova', [ProvaController::class, 'provaFunction']);
-Route::post('/prova', [ProvaController::class, 'provaData']);
+Route::post('/test-form', [ProvaController::class, 'provaData']);
 
 Route::get('/posts', function () {
     //Recupera tutti i posts

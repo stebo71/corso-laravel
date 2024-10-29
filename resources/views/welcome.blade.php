@@ -20,7 +20,7 @@
         @endif
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-    <form action="{{ url('/prova') }}" method="POST">
+    <form action="{{ url('/test-form') }}" method="POST">
             @csrf
 
             <label for="data">Inserisci un valore:</label>

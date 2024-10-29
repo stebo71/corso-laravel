@@ -13,6 +13,7 @@ class ProvaController extends Controller
     }
     public function provaData(Request $request)
     {
+        echo 'questa è la richiesta: '.$request.'         ';
         return 'Dati ricevuti: ' . $request->input('data');
     }
 }
