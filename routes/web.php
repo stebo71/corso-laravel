@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProvaController;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,43 +20,29 @@ Route::get('/about', function () {
     ]);
 });
 
+Route::get('/post/{post}', function(Post $post){
+    return view('posts.show', ['post' => $post]);
+})->name('post.show');
 
-Route::get('/prova', [ProvaController::class, 'provaFunction']);
-Route::post('/test-form', [ProvaController::class, 'provaData']);
+Route::put('/post/{id}', function( Request $request, $id){
+    $post = Post::findOrfail($id);
 
-Route::get('/posts', function () {
-    //Recupera tutti i posts
-    $post = Post::all();
+    $post->title = $request->input('title');
+    $post->content = $request->input('content');
+    $post->save();
 
-    //Mostra tutti i posts
-    return view('posts.index', ['posts'=>$post]);
-})->name('posts.index');
+    return redirect()->route('post.show', ['id' => $post->id])->with('success', 'Post aggiornato con successo');
+})->name('post.update');
 
-Route::get('/posts/create', function(){
-    //Crea un nuovo post con dati fittizi
-    $post = Post::create([
-        'created_at' => now(),
-        'updated_at' => now(),
-    ]);
+Route::delete('/post/{id}', function($id){
+    $post = Post::findOrfail($id);
 
-    //Mostra un messaggio di conferma con l'ID del post creato
-    return view('posts.create', ['post' => $post]);
-})->name('posts.create');
+    $post->delete();
 
-Route::get('/posts/delete/{id}', function($id){
-    //Recupera e elimina il post con l'ID specificato
-    $post = Post::find($id);
+    return redirect()->route('post.index', ['id' => $post->id])->with('success', 'Post aggiornato con successo');
+})->name('post.delete');
 
-    if ($post){
-        $post->delete();
-        $message = "Il post con ID $id è stato cancellato.";
-    }else{
-        $message = "Il post con ID $id NON è stato trovato.";
-    }
 
-    //Mostra messaggio di conferma dell'eliminazione
-    return view('posts.delete', ['message' => $message]);
-})->name('posts.delete');
 
 // Classico routing con GET, POST, PUT, PATCH, DELETE
 //
