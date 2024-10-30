@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>About</h1>
-<p>Questo è il contenuto della pagina About</p>
+<div class="container mt-5">
+    <h1>About</h1>
+    <p>Questo è il contenuto della pagina About</p>
+</div>
+
 @endsection

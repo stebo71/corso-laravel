@@ -1,17 +1,19 @@
 <?php
 
 use App\Http\Controllers\ProvaController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ValidationController;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome', [
+    return view('home', [
         'pageTitle' => 'Homepage',
         'metaTitle' => 'Meta della Homepage'
     ]);
-});
+})->name('home');
 
 Route::get('/about', function () {
     return view('about', [
@@ -21,6 +23,7 @@ Route::get('/about', function () {
 });
 
 Route::get('/post/{post}', function(Post $post){
+
     return view('posts.show', ['post' => $post]);
 })->name('post.show');
 
@@ -42,7 +45,20 @@ Route::delete('/post/{id}', function($id){
     return redirect()->route('post.index', ['id' => $post->id])->with('success', 'Post aggiornato con successo');
 })->name('post.delete');
 
+Route::post('/form', [ValidationController::class, 'validateForm'])->name('validateForm');
 
+//______________________________________________________________
+
+// Route per la registrazione
+Route::get('/register', [UserController::class, 'showRegistrationForm'])->name('showRegisterForm');
+Route::post('/register', [UserController::class, 'register'])->name('registerUser');
+
+// Route per il login
+Route::get('/login', [UserController::class, 'showLoginForm'])->name('showLoginForm');
+Route::post('/login', [UserController::class, 'login'])->name('loginUser');
+
+// Route per il logout
+Route::post('/logout', [UserController::class, 'logout'])->name('logoutUser');
 
 // Classico routing con GET, POST, PUT, PATCH, DELETE
 //
