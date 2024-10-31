@@ -4,12 +4,17 @@ use App\Http\Controllers\ProvaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValidationController;
 use App\Http\Middleware\AddCustoHeader;
+use App\Jobs\SimpleJob;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+
+    
+    SimpleJob::dispatch('Sono l\'ultimo dispatch Giuro');
+
     return view('home', [
         'pageTitle' => 'Homepage',
         'metaTitle' => 'Meta della Homepage'
