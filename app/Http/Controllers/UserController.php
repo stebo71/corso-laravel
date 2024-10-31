@@ -16,8 +16,6 @@ class UserController extends Controller
 
     public function showLoginForm()
     {
-        $pageTitle = 'Login Page';
-        $pageMeta = 'Meta description for login page';
         return view('login');
     }
 

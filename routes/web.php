@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProvaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValidationController;
+use App\Http\Middleware\AddCustoHeader;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,17 +14,16 @@ Route::get('/', function () {
         'pageTitle' => 'Homepage',
         'metaTitle' => 'Meta della Homepage'
     ]);
-})->name('home');
+})->name('home')->middleware(AddCustoHeader::class . ':abbiamoquasifinito');
 
 Route::get('/about', function () {
     return view('about', [
         'pageTitle' => 'About',
         'metaTitle' => 'Meta della About page'
     ]);
-});
+})->middleware('auth');
 
 Route::get('/post/{post}', function(Post $post){
-
     return view('posts.show', ['post' => $post]);
 })->name('post.show');
 
@@ -54,7 +54,14 @@ Route::get('/register', [UserController::class, 'showRegistrationForm'])->name('
 Route::post('/register', [UserController::class, 'register'])->name('registerUser');
 
 // Route per il login
-Route::get('/login', [UserController::class, 'showLoginForm'])->name('showLoginForm');
+
+//Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('/login', function () {
+    return view('login', [
+        'pageTitle' => 'Login Page',
+        'metaTitle' => 'Meta della Login Page'
+    ]);
+})->name('login');
 Route::post('/login', [UserController::class, 'login'])->name('loginUser');
 
 // Route per il logout
