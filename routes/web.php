@@ -52,6 +52,9 @@ Route::delete('/post/{id}', function($id){
 
 Route::post('/form', [ValidationController::class, 'validateForm'])->name('validateForm');
 
+Route::post('/upload-image', [UserController::class, 'uploadImage'])->name('upload.image');
+
+
 //______________________________________________________________
 
 // Route per la registrazione

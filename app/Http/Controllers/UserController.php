@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserRegistered;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -33,6 +36,8 @@ class UserController extends Controller
             'email' => $validateData['email'],
             'password' => Hash::make($validateData['password']),
         ]);
+
+        event(new UserRegistered($user));
 
         Auth::login($user);
 
@@ -74,4 +79,32 @@ class UserController extends Controller
 
         return redirect('/')->with('success', 'Logout effettuato correttamente!');
     }
+
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        if ($user->profile_image)
+        {
+            Storage::delete('public/'.$user->profile_image);
+        }
+
+        $path = $request->file('profile_image')->store('profile_images', 'public');
+
+
+        $user->profile_image = $path;
+        $user->save();
+
+        return redirect()->route('home')->with('success', 'Immagine caricata correttamente');
+    }
+
+
+
+
+
+
 }
