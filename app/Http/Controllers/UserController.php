@@ -102,9 +102,4 @@ class UserController extends Controller
         return redirect()->route('home')->with('success', 'Immagine caricata correttamente');
     }
 
-
-
-
-
-
 }
